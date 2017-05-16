@@ -1,8 +1,8 @@
 
 {
   "name": "react-native-launch-darkly",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "React Native wrapper over LaunchDarkly SDK's for iOS and Android.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,7 +10,7 @@
   "keywords": [
     "react-native"
   ],
-  "author": "",
+  "author": "Pawel Janik <paweljnk@gmail.com>",
   "license": "",
   "peerDependencies": {
     "react-native": "^0.41.2"
