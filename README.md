@@ -81,9 +81,11 @@ LaunchDarkly.configure(apiKey: string, user: User);
 // get feature flag value
 LaunchDarkly.boolVariation(featureFlagName: string, callback: function): bool
 
-// adds listener which is called every time feature flag value is changed
-LaunchDarkly.addFeatureFlagChangeListener(callback: function): void
+// adds listener which is called every time given feature flag value is changed
+// callback is called with flagName string, so you will have to call LaunchDarkly.boolVariation()
+// to get new feature flag value
+LaunchDarkly.addFeatureFlagChangeListener(flagName: string, callback: function): void
 
-// removes onFeatureFlagChange listener
-LaunchDarkly.addFeatureFlagChangeListener(): void
+// removes all onFeatureFlagChange listeners
+LaunchDarkly.unsubscribe(): void
 ```

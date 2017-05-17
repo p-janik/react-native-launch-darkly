@@ -1,4 +1,8 @@
-import { NativeModules, NativeEventEmitter } from 'react-native';
+import {
+  Platform,
+  NativeModules,
+  NativeEventEmitter,
+} from 'react-native';
 
 const { RNLaunchDarkly } = NativeModules;
 
@@ -15,14 +19,26 @@ class LaunchDarkly {
     RNLaunchDarkly.boolVariation(featureName, callback);
   }
 
-  addFeatureFlagChangeListener (callback) {
+  addFeatureFlagChangeListener (featureName, callback) {
+    if (Platform.OS === 'android') {
+      RNLaunchDarkly.addFeatureFlagChangeListener(featureName);
+    }
+
+    if (this.featureFlagChangeListener) {
+      return;
+    }
+
     this.featureFlagChangeListener = this.emitter.addListener(
       'FeatureFlagChanged',
-      result => callback(result.flagName),
+      ({ flagName }) => {
+        if (flagName === featureName) {
+          callback(flagName);
+        }
+      },
     );
   }
 
-  removeFeatureFlagChangeListener () {
+  unsubscribe () {
     if (this.featureFlagChangeListener) {
       this.featureFlagChangeListener.remove();
       this.featureFlagChangeListener = null;
