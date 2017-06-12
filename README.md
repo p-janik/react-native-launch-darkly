@@ -78,8 +78,11 @@ type User = {
 // init native SDK with api key and user object
 LaunchDarkly.configure(apiKey: string, user: User);
 
-// get feature flag value
+// get boolean feature flag value
 LaunchDarkly.boolVariation(featureFlagName: string, callback: function): bool
+
+// get string feature flag value
+LaunchDarkly.boolVariation(featureFlagName: string, fallback: string, callback: function): string
 
 // adds listener which is called every time given feature flag value is changed
 // callback is called with flagName string, so you will have to call LaunchDarkly.boolVariation()
