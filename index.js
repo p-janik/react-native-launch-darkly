@@ -19,6 +19,10 @@ class LaunchDarkly {
     RNLaunchDarkly.boolVariation(featureName, callback);
   }
 
+  stringVariation (featureName, fallback, callback) {
+    RNLaunchDarkly.stringVariation(featureName, fallback, callback);
+  }
+
   addFeatureFlagChangeListener (featureName, callback) {
     if (Platform.OS === 'android') {
       RNLaunchDarkly.addFeatureFlagChangeListener(featureName);
