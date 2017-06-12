@@ -82,7 +82,7 @@ LaunchDarkly.configure(apiKey: string, user: User);
 LaunchDarkly.boolVariation(featureFlagName: string, callback: function): bool
 
 // get string feature flag value
-LaunchDarkly.boolVariation(featureFlagName: string, fallback: string, callback: function): string
+LaunchDarkly.stringVariation(featureFlagName: string, fallback: string, callback: function): string
 
 // adds listener which is called every time given feature flag value is changed
 // callback is called with flagName string, so you will have to call LaunchDarkly.boolVariation()
