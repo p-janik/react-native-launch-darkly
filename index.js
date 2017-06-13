@@ -9,6 +9,7 @@ const { RNLaunchDarkly } = NativeModules;
 class LaunchDarkly {
   constructor () {
     this.emitter = new NativeEventEmitter(RNLaunchDarkly);
+    this.listeners = {};
   }
 
   configure (apiKey, options) {
@@ -28,11 +29,11 @@ class LaunchDarkly {
       RNLaunchDarkly.addFeatureFlagChangeListener(featureName);
     }
 
-    if (this.featureFlagChangeListener) {
+    if (this.listeners[featureName]) {
       return;
     }
 
-    this.featureFlagChangeListener = this.emitter.addListener(
+    this.listeners[featureName] = this.emitter.addListener(
       'FeatureFlagChanged',
       ({ flagName }) => {
         if (flagName === featureName) {
@@ -43,10 +44,11 @@ class LaunchDarkly {
   }
 
   unsubscribe () {
-    if (this.featureFlagChangeListener) {
-      this.featureFlagChangeListener.remove();
-      this.featureFlagChangeListener = null;
-    }
+    Object.keys(this.listeners).forEach((featureName) => {
+      this.listeners[featureName].remove();
+    });
+
+    this.listeners = {};
   }
 }
 
