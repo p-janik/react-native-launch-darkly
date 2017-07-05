@@ -45,7 +45,7 @@ public class RNLaunchDarklyModule extends ReactContextBaseJavaModule {
     LDUser.Builder userBuilder = new LDUser.Builder(options.getString("key"));
 
     if (options.hasKey("email")) {
-      userBuilder = userBuilder.email(options.getString("getString"));
+      userBuilder = userBuilder.email(options.getString("email"));
     }
 
     if (options.hasKey("firstName")) {
