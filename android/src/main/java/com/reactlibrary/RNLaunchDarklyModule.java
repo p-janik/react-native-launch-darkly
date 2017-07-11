@@ -61,7 +61,7 @@ public class RNLaunchDarklyModule extends ReactContextBaseJavaModule {
     }
 
     if (options.hasKey("organization")) {
-      userBuilder = userBuilder.custom(options.getString("organization"));
+      userBuilder = userBuilder.custom("organization", options.getString("organization"));
     }
 
     if (user != null && ldClient != null) {
