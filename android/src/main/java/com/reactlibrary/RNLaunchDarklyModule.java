@@ -60,6 +60,10 @@ public class RNLaunchDarklyModule extends ReactContextBaseJavaModule {
       userBuilder = userBuilder.anonymous(options.getBoolean("isAnonymous"));
     }
 
+    if (options.hasKey("organization")) {
+      userBuilder = userBuilder.custom(options.getString("organization"));
+    }
+
     if (user != null && ldClient != null) {
       user = userBuilder.build();
       ldClient.identify(user);
