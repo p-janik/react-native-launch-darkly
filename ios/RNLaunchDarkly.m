@@ -19,6 +19,8 @@ RCT_EXPORT_METHOD(configure:(NSString*)apiKey options:(NSDictionary*)options) {
     NSNumber* isAnonymous   = options[@"isAnonymous"];
     NSString* organization   = options[@"organization"];
 
+    NSArray* nonCustomFields  = @[@"key", @"firstName", @"lastName", @"email", @"isAnonymous"];
+
     LDConfigBuilder *config = [[LDConfigBuilder alloc] init];
     [config withMobileKey:apiKey];
 
@@ -37,8 +39,11 @@ RCT_EXPORT_METHOD(configure:(NSString*)apiKey options:(NSDictionary*)options) {
         user = [user withEmail:email];
     }
 
-    if (organization) {
-        user = [user withCustomString:@"organization" value:organization];
+    for (NSString* key in options) {
+      if (![nonCustomFields containsObject:key]) {
+        NSLog(@"LaunchDarkly Custom Field key=%@", key);
+        user = [user withCustomString:key value:options[key]];
+      }
     }
 
     if([isAnonymous isEqualToNumber:[NSNumber numberWithBool:YES]]) {
@@ -46,7 +51,8 @@ RCT_EXPORT_METHOD(configure:(NSString*)apiKey options:(NSDictionary*)options) {
     }
 
     if ( self.user ) {
-        [[LDClient sharedInstance] updateUser:user];
+        bool updatedSuccesfully = [[LDClient sharedInstance] updateUser:user];
+        NSLog(@"LaunchDarkly User was updated. Key=%@ IsSuccess=%@", key, updatedSuccesfully ? @"YES" : @"NO");
         return;
     }
 
@@ -80,4 +86,3 @@ RCT_EXPORT_METHOD(stringVariation:(NSString*)flagName fallback:(NSString*)fallba
 RCT_EXPORT_MODULE()
 
 @end
-
